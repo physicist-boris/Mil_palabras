@@ -1,0 +1,19 @@
+Baseline : LDA (avec preprocessing stemming ou pas) appliqué directement sur les textes pour trouver les topics associés. 
+Évaluation de la génération des topics sur les documents avec les métriques de cohérences et perplexité sur la variation des hyperparamètres (nombre de topics)
+Meilleur performance : 10-12 topics (avec lemmantization seulement) pour environ 0,54 de cohérence
+
+---------------------------------------------------------------------------------------------------------------------
+Experience: LLM (llama2-7b) 
+Pas assez perfromant pour la génération des topics. Le modèle a du mal a identifer sous forme de titres bien précis et séparés les sujets clés d'un texte.
+Il fait plutot des résumés de texte (avec beaucoup de difficultés aussi)
+Evaluation des resumes: ???
+La version du llm utilisée est pas assez performante. Changez de version
+
+Deuxieme version de modelling-
+LDA + llm
+Utilisation du llama2-7b comme preprocessing pour synthétiser le texte avec les sujets importants et ensuite utilisation du LDA pour capter les topics de manière plus précise.
+Évaluation de la génération des topics sur les documents avec les métriques de cohérences et perplexité sur la variation des hyperparamètres (nombre de topics)
+Meilleur performance : 15 topics (avec lemmantization seulement) pour environ 0,57 de cohérence
+Pas très conséquent face au baseline
+
+Experience :Llama2 version chatgpt local
