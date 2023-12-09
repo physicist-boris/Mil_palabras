@@ -1,13 +1,12 @@
 import gensim
 from nltk.stem import SnowballStemmer
 import spacy
-import docx2txt
 import os
 import json
 
 
 def preprocess_text(text):
-    #lemmatize and stemming text
+    # Lemmatize and stemming text
     result = []
     stemmer = SnowballStemmer("spanish")
     nlp = spacy.load("es_core_news_sm")
@@ -26,19 +25,17 @@ def preprocess_doc(path_to_original_data, path_to_preprocessed_data,
     if add_new_preprocessed_data_only:
         with open(os.path.join(path_to_preprocessed_data, "preprocessed_description_data.json"), "r") as f:
             dict_of_preprocessed_doc = json.load(f)
-        filenames = [filename for filename in filenames if filename[1:4] not in dict_preprocessed_data.keys()]
-    #for each doc loop
+        filenames = [filename for filename in filenames if filename[1:4] not in dict_of_preprocessed_doc.keys()]
+    # for each doc loop
     for filename in filenames:
         doc_id = filename[0:3]
         with open(os.path.join(path_to_original_data, filename), "r") as f:
             doc = f.read()
-        #doc = docx2txt.process(os.path.join(path_to_original_data, filename))
-        #doc_description_only = doc.split("Etiquetas:")[0] 
-        #the output will be a list 
+        # the output will be a list 
         doc_preprocessed = preprocess_text(doc)
         dict_of_preprocessed_doc[doc_id] = doc_preprocessed
         print(doc_id)
-    #save 2 json
+    # save to json
     with open(os.path.join(path_to_preprocessed_data, "preprocessed_description_data_lemma_only_resume.json"), "w") as f:
         json.dump(dict_of_preprocessed_doc, f)
 

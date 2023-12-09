@@ -5,8 +5,7 @@ import docx2txt
 import json
 
 
-def classify_episode(path_to_registered_model, path_to_registered_tokenizer, path_data_to_classify,
-                     path_to_sample_prompt):
+def classify_episode(path_to_registered_model, path_to_registered_tokenizer, path_data_to_classify, path_to_saved_results):
     lda_llm_model = gensim.models.LdaMulticore.load(path_to_registered_model,)
     filenames = os.listdir(path_data_to_classify)
     processed_docs = []
@@ -32,7 +31,7 @@ def classify_episode(path_to_registered_model, path_to_registered_tokenizer, pat
     for k,v in dict_topics_by_corpus.items():
         for x in v:
             dict_corpus_by_topics.setdefault(x, []).append(k)
-    with open("classification_result.json", "w") as f:
+    with open(os.path.join(path_to_saved_results,"classification_result.json"), "w") as f:
         json.dump(dict_corpus_by_topics, f)
 
 if __name__ == "__main__":
@@ -43,10 +42,10 @@ if __name__ == "__main__":
                                      description="Cette application classifie les episodes d'un podcast en se basant sur la description")
     parser.add_argument('path_to_registered_model', type=str)
     parser.add_argument('path_data_to_classify', type=str)
-    parser.add_argument('path_to_sample_prompt', type=str)
     parser.add_argument('path_to_registered_tokenizer', type=str)
+    parser.add_argument('path_to_saved_results', type=str)
     args = parser.parse_args()
     classify_episode(args.path_to_registered_model,
                      args.path_to_registered_tokenizer,
                      args.path_data_to_classify,
-                     args.path_to_sample_prompt)
+                     args.path_to_saved_results)
